@@ -12,7 +12,7 @@ public class Tile : MonoBehaviour
         
     }
 
-    public void inicializar(int cambioX, int cambioY)
+    public void Inicializar(int cambioX, int cambioY)
     {
         indiceX = cambioX;
         indiceY = cambioY;

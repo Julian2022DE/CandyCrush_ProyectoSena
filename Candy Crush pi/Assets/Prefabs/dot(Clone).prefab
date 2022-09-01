@@ -104,4 +104,10 @@ MonoBehaviour:
   t: 0
   tiempodemovimiento: 2
   yaseejecuto: 1
-  tipomovimiento: 4
+  tipointerpolacion: 1
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

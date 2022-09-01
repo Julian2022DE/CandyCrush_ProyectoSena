@@ -13,14 +13,35 @@ public class Board : MonoBehaviour
     public Camera cam;
     public GameObject[] prefpuntos;
     public PiezasDeJuego[,] piezas;
-
+    public Tile tileinicial;
+    public Tile tilefinal;
+    public void InicialTile(Tile inicial)
+    {
+        if(tileinicial == null)
+        {
+            tileinicial = inicial;
+        }
+    }
+    public void FinalTile(Tile final)
+    {
+        if(tileinicial != null)
+        {
+            tilefinal = final;
+        }
+    }
+    public void RealiceTile()
+    {
+        if (tileinicial != null && tilefinal != null)
+        {
+            tileinicial = null;
+            tilefinal = null;
+        }
+    }
     private void Start()
     {
         Creatvoard();
         Organizadorcamara();
         LlenarAleatorio();
-
-
     }
 
     void Creatvoard()
@@ -36,9 +57,8 @@ public class Board : MonoBehaviour
                 go.transform.position = new Vector3(j, i, 0);
                 go.transform.parent = transform;
                 Tile tiles = go.GetComponent<Tile>();
-
+                tiles.funciones = this;
                 board[i, j] = tiles;
-
                 tiles.Inicializar(i, j);
             }
         }

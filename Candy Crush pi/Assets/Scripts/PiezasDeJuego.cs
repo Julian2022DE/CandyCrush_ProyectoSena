@@ -13,6 +13,7 @@ public class PiezasDeJuego : MonoBehaviour
     public float tiempodemovimiento;
     public bool yaseejecuto;
     public tipodeinterpolacion tipointerpolacion;
+    public AnimationCurve curve;
 
     private void Start()
     {
@@ -64,7 +65,7 @@ public class PiezasDeJuego : MonoBehaviour
             {
                 llego = true;
                 yaseejecuto = true;
-                transform.position = new Vector3((int)finaldelpunto.x, (int)startPosition.y, 0);
+                transform.position = new Vector3((int)finaldelpunto.x, (int)finaldelpunto.y, 0);
                 break;
             }
             float t = tiempotranscurrido / tiempomovimiento;
@@ -72,22 +73,21 @@ public class PiezasDeJuego : MonoBehaviour
             switch(tipointerpolacion)
             {
                 case tipodeinterpolacion.lineal:
+                    t = curve.Evaluate(t);
                     break;
                 case tipodeinterpolacion.entrada:
+                    t = 1 - Mathf.Cos(t * Mathf.PI * .5f);
                     break;
                 case tipodeinterpolacion.salida:
+                    t = Mathf.Sin(t * Mathf.PI * .5f);
                     break;
                 case tipodeinterpolacion.suavizado:
+                    t = t * t * (3 - 2 * t);
                     break;
                 case tipodeinterpolacion.massuavizado:
                     t = t * t * t * (t * (t * 6 - 15) + 10);
                     break;
-
-
-
-
             }
-            t = t * t * (3 - 2 * t);
             tiempotranscurrido += Time.deltaTime;
             transform.position = Vector3.Lerp(startPosition, finaldelpunto, t);
             yield return new WaitForEndOfFrame();

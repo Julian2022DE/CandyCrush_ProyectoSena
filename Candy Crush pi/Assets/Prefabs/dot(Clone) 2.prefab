@@ -97,3 +97,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53db6d12b214ea8488b35b4c890d8c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cordenadax: 0
+  cordenaday: 0
+  start: {x: 0, y: 0, z: 0}
+  end: {x: 0, y: 0, z: 0}
+  t: 0
+  tiempodemovimiento: 2
+  yaseejecuto: 1
+  tipomovimiento: 4

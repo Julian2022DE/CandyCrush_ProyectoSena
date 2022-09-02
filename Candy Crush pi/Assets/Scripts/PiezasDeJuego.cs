@@ -19,7 +19,7 @@ public class PiezasDeJuego : MonoBehaviour
     {
 
     }
-    private void Update()
+    /*private void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -37,18 +37,18 @@ public class PiezasDeJuego : MonoBehaviour
         {
             Movepieces(new Vector3((int)transform.position.x -1, (int)transform.position.y, 0), tiempodemovimiento);
         }
-    }
+    }*/
     public void Cordenadas(int x, int y)
     {
         cordenadax = x;
         cordenaday = y;
     }
 
-    void Movepieces(Vector3 finaldelpunto, float tiempomovimiento)
+    public void Movepieces(int x, int y, float duracion)
     {
         if (yaseejecuto == true) 
         {
-            StartCoroutine(Movepiece(finaldelpunto, tiempomovimiento));
+            StartCoroutine(Movepiece(new Vector3(x,y,0),duracion));
         }
     }
 

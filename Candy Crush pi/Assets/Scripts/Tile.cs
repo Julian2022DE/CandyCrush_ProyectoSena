@@ -29,6 +29,7 @@ public class Tile : MonoBehaviour
     public void OnMouseUp()
     {
         funciones.RealiceTile();
+        
     }
 }
 

@@ -13,7 +13,8 @@ public class Board : MonoBehaviour
     public GameObject[] prefpuntos;
     public PiezasDeJuego[,] piezas;
     public Tile tileinicial;
-    public Tile tilefinal;private void Start()
+    public Tile tilefinal;
+    private void Start()
     {
         Creatvoard();
         Organizadorcamara();
@@ -55,12 +56,14 @@ public class Board : MonoBehaviour
     {   
         int Numeroaleatorio = Random.Range(0, prefpuntos.Length);
         GameObject go = Instantiate(prefpuntos[Numeroaleatorio]);
+        go.GetComponent<PiezasDeJuego>().board = this;
         return go;
     }
-    void Piezaposicion(PiezasDeJuego go, int x, int y)
+   public void Piezaposicion(PiezasDeJuego go, int x, int y)
     {
         go.transform.position = new Vector3(x, y, 0);
         go.Cordenadas(x, y);
+        
         piezas[x, y] = go;
     }
     void LlenarAleatorio()
@@ -88,7 +91,7 @@ public class Board : MonoBehaviour
     {
         if (tileinicial != null)
         {
-            tilefinal = final;
+            tilefinal = final;         
         }
     }
     public void RealiceTile()
@@ -96,14 +99,28 @@ public class Board : MonoBehaviour
         if (tileinicial != null && tilefinal != null)
         {
             SwichPieces(tileinicial, tilefinal);
+            tileinicial = null;
+            tilefinal = null;
         }
+        
     }
     public void SwichPieces(Tile inicial, Tile final)
     {
         PiezasDeJuego gpinicial = piezas[inicial.indiceX, inicial.indiceY];
-        PiezasDeJuego gpfinal = piezas[final.indiceX, inicial.indiceY];
+        PiezasDeJuego gpfinal = piezas[final.indiceX, final.indiceY];
+       
 
         gpinicial.Movepieces(tilefinal.indiceX, tilefinal.indiceY, 0.5f);
         gpfinal.Movepieces(tileinicial.indiceX, tileinicial.indiceY, 0.5f);
+       
     }
-}
+    public bool EsVecino(Tile _Inicial, Tile _Final)
+    {
+        if (_Inicial.indiceX != _Inicial.indiceY)
+        {
+            
+            return true;
+        }
+        return false;
+    }
+} 

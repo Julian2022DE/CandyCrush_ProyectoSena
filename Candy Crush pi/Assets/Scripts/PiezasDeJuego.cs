@@ -14,6 +14,7 @@ public class PiezasDeJuego : MonoBehaviour
     public bool yaseejecuto;
     public tipodeinterpolacion tipointerpolacion;
     public AnimationCurve curve;
+    public Board board;
 
     private void Start()
     {
@@ -65,7 +66,9 @@ public class PiezasDeJuego : MonoBehaviour
             {
                 llego = true;
                 yaseejecuto = true;
+
                 transform.position = new Vector3((int)finaldelpunto.x, (int)finaldelpunto.y, 0);
+                board.Piezaposicion(this, (int)finaldelpunto.x, (int)finaldelpunto.y);
                 break;
             }
             float t = tiempotranscurrido / tiempomovimiento;

@@ -12,6 +12,7 @@ public class PiezasDeJuego : MonoBehaviour
     public float t;
     public float tiempodemovimiento;
     public bool yaseejecuto;
+    public tipodeficha ficha;
     public tipodeinterpolacion tipointerpolacion;
     public AnimationCurve curve;
     public Board board;
@@ -104,6 +105,17 @@ public class PiezasDeJuego : MonoBehaviour
         salida,
         suavizado,
         massuavizado,
+    }
+    public enum tipodeficha
+    {
+        Rojo,
+        Amarillo,
+        Verde,
+        Morado,
+        celeste,
+        negro,
+        blanco,
+        rosa,
     }
 }
 

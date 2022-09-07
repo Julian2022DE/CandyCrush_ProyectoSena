@@ -7,12 +7,6 @@ public class Tile : MonoBehaviour
     public int indiceX;
     public int indiceY;
     public Board funciones;
-
-    private void Start()
-    {
-        
-    }
-
     public void Inicializar(int cambioX, int cambioY)
     {
         indiceX = cambioX;

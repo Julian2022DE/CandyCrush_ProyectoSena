@@ -20,6 +20,7 @@ public class Board : MonoBehaviour
         Creatvoard();
         Organizadorcamara();
         LlenarAleatorio();
+        resaltar();
     }
     void Creatvoard()
     {
@@ -90,7 +91,7 @@ public class Board : MonoBehaviour
     }
     public void FinalTile(Tile final)
     {
-        if (tileinicial != null)
+        if (tileinicial != null && EsVecino(tileinicial, final) == true)
         {
             tilefinal = final;
         }
@@ -100,9 +101,8 @@ public class Board : MonoBehaviour
         if (tileinicial != null && tilefinal != null)
         {
             SwichPieces(tileinicial, tilefinal);
-
-        tileinicial = null;
-        tilefinal = null;
+            tileinicial = null;
+            tilefinal = null;
         }
     }
     public void SwichPieces(Tile inicial, Tile final)
@@ -117,11 +117,11 @@ public class Board : MonoBehaviour
     }
     public bool EsVecino(Tile _Inicial, Tile _Final)
     {
-        if (Mathf.Abs(_Inicial.indiceX - _Final.indiceY) == 1 && _Inicial.indiceY == _Final.indiceX)
+        if (Mathf.Abs(_Inicial.indiceX - _Final.indiceX) == 1 && _Inicial.indiceY == _Final.indiceY)
         {
             return true;
         }
-        if (Mathf.Abs(_Inicial.indiceY - _Final.indiceX) == 1 && _Inicial.indiceX == _Final.indiceY)
+        if (Mathf.Abs(_Inicial.indiceY - _Final.indiceY) == 1 && _Inicial.indiceX == _Final.indiceX)
         {
             return true;
         }
@@ -210,5 +210,30 @@ public class Board : MonoBehaviour
         }
         var listascombinadas = izquiera.Union(derecha).ToList();
         return listascombinadas.Count >= cantidadminima ? listascombinadas : null;
+    }
+    void resaltar()
+    {
+        for (int i = 0; i < ancho; i++)
+        {
+            for (int j = 0; j < alto; j++)
+            {
+                List<PiezasDeJuego> horizontal = BusquedaHorizontal(i, j);
+                List<PiezasDeJuego> Vertical = BusquedaVertical(i, j);
+                if(horizontal == null)
+                {
+                    horizontal = new List<PiezasDeJuego>();
+                } 
+                if(Vertical == null)
+                {
+                    Vertical = new List<PiezasDeJuego>();
+                }
+                var listascombinadas = horizontal.Union(Vertical).ToList();
+
+                if (listascombinadas.Count >= 3)
+                {
+                    Debug.Log(listascombinadas.Count);
+                }
+            }
+        }
     }
 } 

@@ -157,7 +157,7 @@ public class Board : MonoBehaviour
         for(int i = 1; i < valormaximo -1; i++)
         {
             siguientex = startx + (int)Mathf.Clamp(direcciondelbuscado.x, -1, 1) * i;
-            siguientey = starty + (int)Mathf.Clamp(direcciondelbuscado.x, -1, 1) * i;
+            siguientey = starty + (int)Mathf.Clamp(direcciondelbuscado.y, -1, 1) * i;
 
             if(!EstaEnRango(siguientex, siguientey))
             {
@@ -182,7 +182,7 @@ public class Board : MonoBehaviour
     List<PiezasDeJuego> BusquedaVertical(int startX, int startY, int cantidadminima = 3)
     {
         List<PiezasDeJuego> arriba = EncontrarCoincidencias(startX, startY, Vector2.up, 2);
-        List<PiezasDeJuego> abajo = EncontrarCoincidencias(startX, startY, Vector2.up, 2);
+        List<PiezasDeJuego> abajo = EncontrarCoincidencias(startX, startY, Vector2.down, 2);
 
         if(arriba == null)
         {
@@ -197,43 +197,61 @@ public class Board : MonoBehaviour
     }
     List<PiezasDeJuego> BusquedaHorizontal (int startX, int startY, int cantidadminima = 3)
     {
-        List<PiezasDeJuego> izquiera = EncontrarCoincidencias(startX, startY, Vector2.up, 2);
-        List<PiezasDeJuego> derecha = EncontrarCoincidencias(startX, startY, Vector2.up, 2);
+        List<PiezasDeJuego> derecha = EncontrarCoincidencias(startX, startY, Vector2.right, 2);
+        List<PiezasDeJuego> izquierda = EncontrarCoincidencias(startX, startY, Vector2.left, 2);
 
-        if (izquiera == null)
-        {
-            izquiera = new List<PiezasDeJuego>();
-        }
         if (derecha == null)
         {
             derecha = new List<PiezasDeJuego>();
         }
-        var listascombinadas = izquiera.Union(derecha).ToList();
+        if (izquierda == null)
+        {
+            izquierda = new List<PiezasDeJuego>();
+        }
+        var listascombinadas = derecha.Union(izquierda).ToList();
         return listascombinadas.Count >= cantidadminima ? listascombinadas : null;
     }
-    void resaltar()
+    public void resaltar()
     {
         for (int i = 0; i < ancho; i++)
         {
             for (int j = 0; j < alto; j++)
             {
-                List<PiezasDeJuego> horizontal = BusquedaHorizontal(i, j);
-                List<PiezasDeJuego> Vertical = BusquedaVertical(i, j);
-                if(horizontal == null)
-                {
-                    horizontal = new List<PiezasDeJuego>();
-                } 
-                if(Vertical == null)
-                {
-                    Vertical = new List<PiezasDeJuego>();
-                }
-                var listascombinadas = horizontal.Union(Vertical).ToList();
-
-                if (listascombinadas.Count >= 3)
-                {
-                    Debug.Log(listascombinadas.Count);
-                }
+                 ResaltarTodasLasCoincidencias(i, j);
             }
         }
+    }
+
+    void ResaltarCoincidenciasEn(int _X, int _Y)
+    {
+        var listascombinadas = ResaltarTodasLasCoincidencias(_X, _Y);
+        if(listascombinadas.Count > 0)
+        {
+            foreach(PiezasDeJuego p in listascombinadas)
+            {
+                (p.cordenadax, p.cordenaday, p.GetComponent<SpriteRenderer>().color);
+            }
+        }
+    }
+
+    private List<PiezasDeJuego> ResaltarTodasLasCoincidencias(int i, int j)
+    {
+        List<PiezasDeJuego> horizontal = BusquedaHorizontal(i, j, 3);
+        List<PiezasDeJuego> Vertical = BusquedaVertical(i, j, 3);
+        if (Vertical == null)
+        {
+            Vertical = new List<PiezasDeJuego>();
+        }
+        if (horizontal == null)
+        {
+            horizontal = new List<PiezasDeJuego>();
+        }
+        var listascombinadas = horizontal.Union(Vertical).ToList();
+        return listascombinadas;
+    }
+
+    private void NewMethod(PiezasDeJuego p)
+    {
+        board[p.cordenadax, p.cordenaday].GetComponent<SpriteRenderer>().color = p.GetComponent<SpriteRenderer>().color;
     }
 } 

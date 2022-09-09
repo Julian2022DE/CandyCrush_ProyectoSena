@@ -20,7 +20,7 @@ public class Board : MonoBehaviour
         Creatvoard();
         Organizadorcamara();
         LlenarAleatorio();
-        resaltar();
+        
     }
     void Creatvoard()
     {
@@ -113,6 +113,9 @@ public class Board : MonoBehaviour
 
         gpinicial.Movepieces(final.indiceX, final.indiceY, 0.5f);
         gpfinal.Movepieces(inicial.indiceX, inicial.indiceY, 0.5f);
+
+        ResaltarPiezasEn(gpinicial.cordenadax, gpinicial.cordenaday);
+        ResaltarPiezasEn(gpfinal.cordenadax, gpfinal.cordenaday);
 
     }
     public bool EsVecino(Tile _Inicial, Tile _Final)
@@ -217,41 +220,42 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < alto; j++)
             {
-                 ResaltarTodasLasCoincidencias(i, j);
+                 EncontratCoincidenciasEn(i, j);
             }
         }
     }
 
-    void ResaltarCoincidenciasEn(int _X, int _Y)
+    void ResaltarPiezasEn(int _X, int _Y)
     {
-        var listascombinadas = ResaltarTodasLasCoincidencias(_X, _Y);
+        var listascombinadas = EncontratCoincidenciasEn(_X, _Y);
         if(listascombinadas.Count > 0)
         {
             foreach(PiezasDeJuego p in listascombinadas)
             {
-                (p.cordenadax, p.cordenaday, p.GetComponent<SpriteRenderer>().color);
+                ResaltarTile(p.cordenadax, p.cordenaday, p.GetComponent<SpriteRenderer>().color);
             }
         }
     }
-
-    private List<PiezasDeJuego> ResaltarTodasLasCoincidencias(int i, int j)
+    
+    private List<PiezasDeJuego> EncontratCoincidenciasEn(int i, int j)
     {
         List<PiezasDeJuego> horizontal = BusquedaHorizontal(i, j, 3);
         List<PiezasDeJuego> Vertical = BusquedaVertical(i, j, 3);
-        if (Vertical == null)
-        {
-            Vertical = new List<PiezasDeJuego>();
-        }
         if (horizontal == null)
         {
             horizontal = new List<PiezasDeJuego>();
+        }
+        if (Vertical == null)
+        {
+            Vertical = new List<PiezasDeJuego>();
         }
         var listascombinadas = horizontal.Union(Vertical).ToList();
         return listascombinadas;
     }
 
-    private void NewMethod(PiezasDeJuego p)
+    public void ResaltarTile(int _X, int _Y, Color color)
     {
-        board[p.cordenadax, p.cordenaday].GetComponent<SpriteRenderer>().color = p.GetComponent<SpriteRenderer>().color;
+        SpriteRenderer sr = board[_X, _Y].GetComponent<SpriteRenderer>();
+        sr.color = color;
     }
 } 

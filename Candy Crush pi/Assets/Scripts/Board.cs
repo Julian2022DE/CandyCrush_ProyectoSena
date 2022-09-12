@@ -15,6 +15,8 @@ public class Board : MonoBehaviour
     public PiezasDeJuego[,] piezas;
     public Tile tileinicial;
     public Tile tilefinal;
+    [Range(0f, 0.5f)] public float swaptime = 3f;
+
     private void Start()
     {
         Creatvoard();
@@ -76,11 +78,47 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < alto; j++)
             {
-                GameObject go = PiezaAleatoria();
-                Piezaposicion(go.GetComponent<PiezasDeJuego>(), i, j);
-
+                LlenarMatrizAleatoria(i, j);
             }
         }
+        bool estallena = false;
+        int interaciones = 0;
+        int interaccionesmaximas = 100;
+        while(!estallena)
+        {
+            List<PiezasDeJuego> coincidencias = EncontrarTodasLasCoincidencias();
+            if(coincidencias.Count == 0)
+            {
+                estallena = true;
+                break;
+            }
+            else
+            {
+                RemplazarConPiezasAleatorias(coincidencias);
+            }
+            if(interaciones > interaccionesmaximas)
+            {
+                estallena = true;
+                Debug.LogWarning("se alcanzo el numero maximo de interacciones");
+            }
+            interaciones++;
+        }
+
+    }
+
+    private void RemplazarConPiezasAleatorias(List<PiezasDeJuego> coincidencias)
+    {
+        foreach(PiezasDeJuego gamepiece in coincidencias)
+        {
+            ClearPiecesat(gamepiece.cordenadax, gamepiece.cordenaday);
+            LlenarMatrizAleatoria(gamepiece.cordenadax, gamepiece.cordenaday);
+        }
+    }
+
+    void LlenarMatrizAleatoria(int X, int Y)
+    {
+        GameObject go = PiezaAleatoria();
+        Piezaposicion(go.GetComponent<PiezasDeJuego>(), X, Y);
     }
     public void InicialTile(Tile inicial)
     {
@@ -107,16 +145,37 @@ public class Board : MonoBehaviour
     }
     public void SwichPieces(Tile inicial, Tile final)
     {
+        StartCoroutine(Swichtilecourutine(inicial, final));
+    }
+
+    IEnumerator Swichtilecourutine(Tile inicial, Tile final)
+    {
         PiezasDeJuego gpinicial = piezas[inicial.indiceX, inicial.indiceY];
         PiezasDeJuego gpfinal = piezas[final.indiceX, final.indiceY];
 
+        if(gpinicial != null && gpfinal != null)
+        {
+            gpinicial.Movepieces(final.indiceX, final.indiceY, swaptime);
+            gpfinal.Movepieces(inicial.indiceX, inicial.indiceY, swaptime);
 
-        gpinicial.Movepieces(final.indiceX, final.indiceY, 0.5f);
-        gpfinal.Movepieces(inicial.indiceX, inicial.indiceY, 0.5f);
+            yield return new WaitForSeconds(swaptime);
 
-        ResaltarPiezasEn(gpinicial.cordenadax, gpinicial.cordenaday);
-        ResaltarPiezasEn(gpfinal.cordenadax, gpfinal.cordenaday);
+            List<PiezasDeJuego> Coincidencias_ini = EncontratCoincidenciasEn(inicial.indiceX, inicial.indiceY);
+            List<PiezasDeJuego> Coincidencias_fin = EncontratCoincidenciasEn(final.indiceX, final.indiceY);
 
+
+            if (Coincidencias_ini.Count == 0 && Coincidencias_fin.Count == 0)
+            {
+                gpinicial.Movepieces(inicial.indiceX, inicial.indiceY, swaptime);
+                gpfinal.Movepieces(final.indiceX, final.indiceY, swaptime);
+            }
+            /*ResaltarPiezasEn(gpinicial.cordenadax, gpinicial.cordenaday);
+            ResaltarPiezasEn(gpfinal.cordenadax, gpfinal.cordenaday);*/
+
+            ClearPiecesat(Coincidencias_ini);
+            ClearPiecesat(Coincidencias_fin);
+        }
+            
     }
     public bool EsVecino(Tile _Inicial, Tile _Final)
     {
@@ -134,7 +193,7 @@ public class Board : MonoBehaviour
     {
         return (_x < ancho && _x >= 0 && _y >= 0 && _y < alto);
     }
-    List<PiezasDeJuego> EncontrarCoincidencias(int startx, int starty, Vector2 direcciondelbuscado, int cantidaddepiezas = 3)
+     List<PiezasDeJuego> EncontrarCoincidencias(int startx, int starty, Vector2 direcciondelbuscado, int cantidaddepiezas = 3)
     {
         //Crear una lista que coincide encontradas
         List<PiezasDeJuego> coincidencias = new List<PiezasDeJuego>();
@@ -167,14 +226,22 @@ public class Board : MonoBehaviour
                 break;
             }
             PiezasDeJuego siguientepieza = piezas[siguientex, siguientey];
-            if (piezainicial.ficha == siguientepieza.ficha && !coincidencias.Contains(siguientepieza))
-            {
-                coincidencias.Add(siguientepieza);
-            }
-            else
+            if(siguientepieza == null)
             {
                 break;
             }
+            else
+            {
+                if (piezainicial.ficha == siguientepieza.ficha && !coincidencias.Contains(siguientepieza))
+                {
+                    coincidencias.Add(siguientepieza);
+                }
+                else
+                {
+                    break;
+                }
+            }
+
         }
         if(coincidencias.Count >= cantidaddepiezas)
         {
@@ -253,9 +320,54 @@ public class Board : MonoBehaviour
         return listascombinadas;
     }
 
+    private List<PiezasDeJuego> EncontrarTodasLasCoincidencias()
+    {
+        List<PiezasDeJuego> todasLasCoincidencias = new List<PiezasDeJuego>();
+        for (int i = 0; i < ancho; i++)   
+        {
+            for (int j = 0; j < alto; j++)
+            {
+                var coincidencias = EncontratCoincidenciasEn(i, j);
+                todasLasCoincidencias = todasLasCoincidencias.Union(coincidencias).ToList();
+            }
+        }
+        return todasLasCoincidencias;
+    }
+
     public void ResaltarTile(int _X, int _Y, Color color)
     {
         SpriteRenderer sr = board[_X, _Y].GetComponent<SpriteRenderer>();
         sr.color = color;
     }
+   
+    void ClearBoard()
+    {
+        for(int i = 0; i < ancho; i++)
+        { 
+            for (int j = 0; j < alto; j++)
+            {
+                ClearPiecesat(i,j);
+            }
+        }
+    }
+
+    private void ClearPiecesat(int x, int y)
+
+    {
+        PiezasDeJuego placetoclear = piezas[x, y];
+        if(placetoclear != null)
+        {
+            piezas[x, y] = null;
+            Destroy(placetoclear.gameObject);
+        }
+
+    }
+    private void ClearPiecesat(List<PiezasDeJuego> gamepieces)
+    {
+        foreach(PiezasDeJuego go in gamepieces)
+        {
+            ClearPiecesat(go.cordenadax, go.cordenaday);
+        }
+    }
 } 
+

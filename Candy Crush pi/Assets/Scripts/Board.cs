@@ -65,7 +65,7 @@ public class Board : MonoBehaviour
     }
     public void Piezaposicion(PiezasDeJuego go, int x, int y)
     {
-        go.transform.position = new Vector3(x, y, 0);
+        go.transform.position = new Vector3(x, y, 0f);
         go.Cordenadas(x, y);
 
         piezas[x, y] = go;
@@ -105,7 +105,6 @@ public class Board : MonoBehaviour
         }
 
     }
-
     private void RemplazarConPiezasAleatorias(List<PiezasDeJuego> coincidencias)
     {
         foreach(PiezasDeJuego gamepiece in coincidencias)
@@ -114,7 +113,6 @@ public class Board : MonoBehaviour
             LlenarMatrizAleatoria(gamepiece.cordenadax, gamepiece.cordenaday);
         }
     }
-
     void LlenarMatrizAleatoria(int X, int Y)
     {
         GameObject go = PiezaAleatoria();
@@ -147,7 +145,6 @@ public class Board : MonoBehaviour
     {
         StartCoroutine(Swichtilecourutine(inicial, final));
     }
-
     IEnumerator Swichtilecourutine(Tile inicial, Tile final)
     {
         PiezasDeJuego gpinicial = piezas[inicial.indiceX, inicial.indiceY];
@@ -169,13 +166,12 @@ public class Board : MonoBehaviour
                 gpinicial.Movepieces(inicial.indiceX, inicial.indiceY, swaptime);
                 gpfinal.Movepieces(final.indiceX, final.indiceY, swaptime);
             }
-            /*ResaltarPiezasEn(gpinicial.cordenadax, gpinicial.cordenaday);
-            ResaltarPiezasEn(gpfinal.cordenadax, gpfinal.cordenaday);*/
-
             ClearPiecesat(Coincidencias_ini);
             ClearPiecesat(Coincidencias_fin);
-        }
-            
+
+            CollapsarColumnas(Coincidencias_ini);
+            CollapsarColumnas(Coincidencias_fin);
+        }  
     }
     public bool EsVecino(Tile _Inicial, Tile _Final)
     {
@@ -291,7 +287,6 @@ public class Board : MonoBehaviour
             }
         }
     }
-
     void ResaltarPiezasEn(int _X, int _Y)
     {
         var listascombinadas = EncontratCoincidenciasEn(_X, _Y);
@@ -303,7 +298,6 @@ public class Board : MonoBehaviour
             }
         }
     }
-    
     private List<PiezasDeJuego> EncontratCoincidenciasEn(int i, int j)
     {
         List<PiezasDeJuego> horizontal = BusquedaHorizontal(i, j, 3);
@@ -319,7 +313,6 @@ public class Board : MonoBehaviour
         var listascombinadas = horizontal.Union(Vertical).ToList();
         return listascombinadas;
     }
-
     private List<PiezasDeJuego> EncontrarTodasLasCoincidencias()
     {
         List<PiezasDeJuego> todasLasCoincidencias = new List<PiezasDeJuego>();
@@ -333,13 +326,11 @@ public class Board : MonoBehaviour
         }
         return todasLasCoincidencias;
     }
-
     public void ResaltarTile(int _X, int _Y, Color color)
     {
         SpriteRenderer sr = board[_X, _Y].GetComponent<SpriteRenderer>();
         sr.color = color;
-    }
-   
+    }  
     void ClearBoard()
     {
         for(int i = 0; i < ancho; i++)
@@ -350,7 +341,6 @@ public class Board : MonoBehaviour
             }
         }
     }
-
     private void ClearPiecesat(int x, int y)
 
     {
@@ -368,6 +358,57 @@ public class Board : MonoBehaviour
         {
             ClearPiecesat(go.cordenadax, go.cordenaday);
         }
+    }
+
+    List<PiezasDeJuego> CollapsarColumnas(int column, float collapsetime = 0.1f)
+    {
+        List<PiezasDeJuego> movingpieces = new List<PiezasDeJuego>();
+
+        for (int i = 0; i < alto -1; i++)
+        {
+            if(piezas[column, i] == null)
+            {
+                for (int j = i + 1; j < alto; j++)
+                {
+                    if (piezas[column, j] != null)
+                    {
+                        piezas[column, j].Movepieces(column, i, collapsetime);
+                        piezas[column, i] = piezas[column, j];
+                        piezas[column, j].Cordenadas(column, i);
+                        if (!movingpieces.Contains(piezas[column, i]))
+                        {
+                            movingpieces.Add(piezas[column, i]);
+                        }
+                        piezas[column, j] = null;
+                        break;
+                    }
+                }
+            }
+        }
+        return movingpieces;
+    }
+
+    List<PiezasDeJuego> CollapsarColumnas(List<PiezasDeJuego> gamepieces)
+    {
+        List<PiezasDeJuego> MovinginPieces = new List<PiezasDeJuego>();
+        List<int> columnToCollapse = GetColumn(gamepieces);
+        foreach(int column in columnToCollapse)
+        {
+            MovinginPieces = MovinginPieces.Union(CollapsarColumnas(column)).ToList();
+        }
+        return MovinginPieces;
+    }
+    List<int> GetColumn(List<PiezasDeJuego> gamepieces)
+    {
+        List<int> CollumsIndex = new List<int>();
+        foreach  (PiezasDeJuego gamepiece in gamepieces)
+        {
+            if (!CollumsIndex.Contains(gamepiece.cordenadax)) 
+            {
+                CollumsIndex.Add(gamepiece.cordenadax);
+            }
+        }
+        return CollumsIndex;
     }
 } 
 

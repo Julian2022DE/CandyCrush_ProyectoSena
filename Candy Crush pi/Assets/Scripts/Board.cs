@@ -166,11 +166,17 @@ public class Board : MonoBehaviour
                 gpinicial.Movepieces(inicial.indiceX, inicial.indiceY, swaptime);
                 gpfinal.Movepieces(final.indiceX, final.indiceY, swaptime);
             }
-            ClearPiecesat(Coincidencias_ini);
+            else
+            {
+                Coincidencias_ini = Coincidencias_ini.Union(Coincidencias_fin).ToList();
+                ClearAndRefillBoard(Coincidencias_ini);
+            }
+
+          /*  ClearPiecesat(Coincidencias_ini);
             ClearPiecesat(Coincidencias_fin);
 
             CollapsarColumnas(Coincidencias_ini);
-            CollapsarColumnas(Coincidencias_fin);
+            CollapsarColumnas(Coincidencias_fin);*/
         }  
     }
     public bool EsVecino(Tile _Inicial, Tile _Final)
@@ -313,6 +319,16 @@ public class Board : MonoBehaviour
         var listascombinadas = horizontal.Union(Vertical).ToList();
         return listascombinadas;
     }
+
+    List<PiezasDeJuego> EncontratCoincidenciasEn(List<PiezasDeJuego> gamepieces, int minimleght = 3)
+    {
+        List<PiezasDeJuego> matches = new List<PiezasDeJuego>();
+        foreach(PiezasDeJuego gp in gamepieces)
+        {
+            matches = matches.Union(EncontratCoincidenciasEn(gp.cordenadax, gp.cordenaday)).ToList();
+        }
+        return matches;
+    }
     private List<PiezasDeJuego> EncontrarTodasLasCoincidencias()
     {
         List<PiezasDeJuego> todasLasCoincidencias = new List<PiezasDeJuego>();
@@ -356,10 +372,12 @@ public class Board : MonoBehaviour
     {
         foreach(PiezasDeJuego go in gamepieces)
         {
+            if(go != null)
+            {
             ClearPiecesat(go.cordenadax, go.cordenaday);
+            }
         }
     }
-
     List<PiezasDeJuego> CollapsarColumnas(int column, float collapsetime = 0.1f)
     {
         List<PiezasDeJuego> movingpieces = new List<PiezasDeJuego>();
@@ -387,7 +405,6 @@ public class Board : MonoBehaviour
         }
         return movingpieces;
     }
-
     List<PiezasDeJuego> CollapsarColumnas(List<PiezasDeJuego> gamepieces)
     {
         List<PiezasDeJuego> MovinginPieces = new List<PiezasDeJuego>();
@@ -410,5 +427,45 @@ public class Board : MonoBehaviour
         }
         return CollumsIndex;
     }
-} 
+    void ClearAndRefillBoard(List<PiezasDeJuego> gamepieces)
+    {
+        StartCoroutine(ClearAndReRfillBoardRoutine(gamepieces));
+    }
+    IEnumerator ClearAndReRfillBoardRoutine(List<PiezasDeJuego> gamepieces)
+    {
+        yield return StartCoroutine(ClearAndColapseColumn(gamepieces));
+        yield return null;
+        yield return StartCoroutine(refilroutine());
+    }
+    IEnumerator ClearAndColapseColumn(List<PiezasDeJuego> gamepieces)
+    {
+        List<PiezasDeJuego> movepieces = new List<PiezasDeJuego>();
+        List<PiezasDeJuego> matches = new List<PiezasDeJuego>();
 
+        bool isfinishied = false;
+        while(!isfinishied)
+        {
+            ClearPiecesat(gamepieces);
+            yield return new WaitForSeconds(0.5f);
+            movepieces = CollapsarColumnas(gamepieces);
+            yield return new WaitForSeconds(0.5f);
+            matches = EncontratCoincidenciasEn(movepieces);
+
+            if(matches.Count == 0)
+            {
+                isfinishied = true;
+                break;
+                
+            }
+            else
+            {
+                yield return StartCoroutine(ClearAndColapseColumn(matches));
+            }
+        
+        }
+    }
+    IEnumerator refilroutine()
+    {
+        yield return null;
+    }
+} 

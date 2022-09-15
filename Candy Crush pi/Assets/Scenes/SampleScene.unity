@@ -250,9 +250,10 @@ MonoBehaviour:
   - {fileID: 4413232249326130175, guid: 5f25619c35096cd4192c2b3dddfe3a16, type: 3}
   - {fileID: 4413232249326130175, guid: 10c55b89ca003d64caa138ad35063efb, type: 3}
   - {fileID: 4413232249326130175, guid: 464bee83a64c1ce408f2de6d3dbe17ba, type: 3}
-  tileinicial: {fileID: 0}
-  tilefinal: {fileID: 0}
-  swaptime: 0.5
+  tileInicial: {fileID: 0}
+  tileFinal: {fileID: 0}
+  swapTime: 0.5
+  puedeMover: 1
 --- !u!4 &1220073223
 Transform:
   m_ObjectHideFlags: 0

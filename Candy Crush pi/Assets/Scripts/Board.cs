@@ -7,7 +7,7 @@ public class Board : MonoBehaviour
 {
     public int alto;
     public int ancho;
-    public int margen;
+    public float margen;
     public Tile[,] board;
     public GameObject prefile;
     public Camera cam;
@@ -17,6 +17,13 @@ public class Board : MonoBehaviour
     public Tile tileFinal;
     [Range(0f, 0.5f)] public float swapTime = 3f;
     public bool puedeMover = true;
+    public AudioSource Source;
+    public AudioClip audioFX;
+    public AudioClip destryaudio;
+    public Animator animaciondestruir;
+
+
+
 
     private void Start()
     {
@@ -162,16 +169,18 @@ public class Board : MonoBehaviour
             PiezasDeJuego gpinicial = piezas[inicial.indiceX, inicial.indiceY];
             PiezasDeJuego gpfinal = piezas[final.indiceX, final.indiceY];
 
+
             if (gpinicial != null && gpfinal != null)
             {
                 gpinicial.Movepieces(final.indiceX, final.indiceY, swapTime);
                 gpfinal.Movepieces(inicial.indiceX, inicial.indiceY, swapTime);
+               
+
 
                 yield return new WaitForSeconds(swapTime);
 
                 List<PiezasDeJuego> Coincidencias_ini = EncontratCoincidenciasEn(inicial.indiceX, inicial.indiceY);
                 List<PiezasDeJuego> Coincidencias_fin = EncontratCoincidenciasEn(final.indiceX, final.indiceY);
-
 
                 if (Coincidencias_ini.Count == 0 && Coincidencias_fin.Count == 0)
                 {
@@ -182,8 +191,10 @@ public class Board : MonoBehaviour
                 else
                 {
                     Coincidencias_ini = Coincidencias_ini.Union(Coincidencias_fin).ToList();
+                    
+                    AudioSource.PlayClipAtPoint(destryaudio, gameObject.transform.position);   // al destruir un match suena       
+                    animaciondestruir.SetBool("D", true);  
                     ClearAndRefillBoard(Coincidencias_ini);
-
                 }
             }
         }  
@@ -204,7 +215,7 @@ public class Board : MonoBehaviour
     {
         return (_x < ancho && _x >= 0 && _y >= 0 && _y < alto);
     }
-     List<PiezasDeJuego> EncontrarCoincidencias(int startx, int starty, Vector2 direcciondelbuscado, int cantidaddepiezas = 3)
+    List<PiezasDeJuego> EncontrarCoincidencias(int startx, int starty, Vector2 direcciondelbuscado, int cantidaddepiezas = 3)
     {
         //Crear una lista que coincide encontradas
         List<PiezasDeJuego> coincidencias = new List<PiezasDeJuego>();
@@ -245,7 +256,10 @@ public class Board : MonoBehaviour
             {
                 if (piezainicial.ficha == siguientepieza.ficha && !coincidencias.Contains(siguientepieza))
                 {
+
                     coincidencias.Add(siguientepieza);
+                    
+
                 }
                 else
                 {
@@ -284,10 +298,12 @@ public class Board : MonoBehaviour
         if (derecha == null)
         {
             derecha = new List<PiezasDeJuego>();
+            
         }
         if (izquierda == null)
         {
             izquierda = new List<PiezasDeJuego>();
+            
         }
         var listascombinadas = derecha.Union(izquierda).ToList();
         return listascombinadas.Count >= cantidadminima ? listascombinadas : null;
@@ -310,6 +326,7 @@ public class Board : MonoBehaviour
             foreach(PiezasDeJuego p in listascombinadas)
             {
                 ResaltarTile(p.cordenadax, p.cordenaday, p.GetComponent<SpriteRenderer>().color);
+
             }
         }
     }
@@ -326,9 +343,9 @@ public class Board : MonoBehaviour
             Vertical = new List<PiezasDeJuego>();
         }
         var listascombinadas = horizontal.Union(Vertical).ToList();
+        
         return listascombinadas;
     }
-
     List<PiezasDeJuego> EncontratCoincidenciasEn(List<PiezasDeJuego> gamepieces, int minimleght = 3)
     {
         List<PiezasDeJuego> matches = new List<PiezasDeJuego>();
@@ -347,6 +364,8 @@ public class Board : MonoBehaviour
             {
                 var coincidencias = EncontratCoincidenciasEn(i, j);
                 todasLasCoincidencias = todasLasCoincidencias.Union(coincidencias).ToList();
+                
+
             }
         }
         return todasLasCoincidencias;
@@ -374,6 +393,9 @@ public class Board : MonoBehaviour
         {
             piezas[x, y] = null;
             Destroy(placetoclear.gameObject);
+            // Se destruye cuando se hace match al caer despues de otro match
+            AudioSource.PlayClipAtPoint(destryaudio, gameObject.transform.position);
+
         }
 
     }
@@ -421,6 +443,7 @@ public class Board : MonoBehaviour
         foreach(int column in columnToCollapse)
         {
             MovinginPieces = MovinginPieces.Union(CollapsarColumnas(column)).ToList();
+
         }
         return MovinginPieces;
     }
@@ -456,7 +479,8 @@ public class Board : MonoBehaviour
         while(!isfinishied)
         {
             ClearPiecesat(gamepieces);
-            yield return new WaitForSeconds(0.5f);
+            AudioSource.PlayClipAtPoint(audioFX, gameObject.transform.position); // al rellenar la matriz hace pop
+            yield return new WaitForSeconds(1f);  
             movepieces = CollapsarColumnas(gamepieces);
             while(!IsCollapse(gamepieces))
             {
@@ -483,7 +507,6 @@ public class Board : MonoBehaviour
         LlenarAleatorio();
         yield return null;
     }
-
     bool IsCollapse(List<PiezasDeJuego> gamePieces)
     {
         foreach  (PiezasDeJuego gp  in gamePieces)

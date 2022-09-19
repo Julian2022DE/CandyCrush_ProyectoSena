@@ -16,30 +16,8 @@ public class PiezasDeJuego : MonoBehaviour
     public tipodeinterpolacion tipointerpolacion;
     public AnimationCurve curve;
     public Board board;
+ 
 
-    private void Start()
-    {
-
-    }
-    /*private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            Movepieces(new Vector3((int)transform.position.x, (int)transform.position.y + 1, 0), tiempodemovimiento);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Movepieces(new Vector3((int)transform.position.x, (int)transform.position.y - 1, 0), tiempodemovimiento);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            Movepieces(new Vector3((int)transform.position.x +1, (int)transform.position.y, 0), tiempodemovimiento);
-        }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            Movepieces(new Vector3((int)transform.position.x -1, (int)transform.position.y, 0), tiempodemovimiento);
-        }
-    }*/
     public void Cordenadas(int x, int y)
     {
         cordenadax = x;
@@ -108,14 +86,12 @@ public class PiezasDeJuego : MonoBehaviour
     }
     public enum tipodeficha
     {
-        Rojo,
-        Amarillo,
-        Verde,
-        Morado,
-        celeste,
-        negro,
-        blanco,
-        rosa,
+       Fredy,
+       bonnie,
+       chica,
+       foxy,
+       pupet,
+       golden,
     }
 }
 

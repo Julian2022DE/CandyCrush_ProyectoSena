@@ -191,9 +191,8 @@ public class Board : MonoBehaviour
                 else
                 {
                     Coincidencias_ini = Coincidencias_ini.Union(Coincidencias_fin).ToList();
-                    
+                   
                     AudioSource.PlayClipAtPoint(destryaudio, gameObject.transform.position);   // al destruir un match suena       
-                    animaciondestruir.SetBool("D", true);  
                     ClearAndRefillBoard(Coincidencias_ini);
                 }
             }
@@ -225,8 +224,10 @@ public class Board : MonoBehaviour
         if(EstaEnRango(startx, starty))
         {
             piezainicial = piezas[startx, starty];
+            
+
         }
-        if(piezainicial != null)
+        if (piezainicial != null)
         {
             coincidencias.Add(piezainicial);
         }
@@ -337,10 +338,18 @@ public class Board : MonoBehaviour
         if (horizontal == null)
         {
             horizontal = new List<PiezasDeJuego>();
+            if (piezas == null)
+            {
+                animaciondestruir.SetBool("A", true);
+            }
         }
         if (Vertical == null)
         {
             Vertical = new List<PiezasDeJuego>();
+            if (piezas == null)
+            {
+                animaciondestruir.SetBool("A", true);
+            }
         }
         var listascombinadas = horizontal.Union(Vertical).ToList();
         
@@ -352,6 +361,7 @@ public class Board : MonoBehaviour
         foreach(PiezasDeJuego gp in gamepieces)
         {
             matches = matches.Union(EncontratCoincidenciasEn(gp.cordenadax, gp.cordenaday)).ToList();
+           
         }
         return matches;
     }
@@ -393,6 +403,7 @@ public class Board : MonoBehaviour
         {
             piezas[x, y] = null;
             Destroy(placetoclear.gameObject);
+            
             // Se destruye cuando se hace match al caer despues de otro match
             AudioSource.PlayClipAtPoint(destryaudio, gameObject.transform.position);
 

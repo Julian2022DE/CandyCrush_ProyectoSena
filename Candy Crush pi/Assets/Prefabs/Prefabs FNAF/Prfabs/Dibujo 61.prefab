@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4120867550659023000}
   - component: {fileID: 7442859564217809689}
   - component: {fileID: 5566711941200664036}
+  - component: {fileID: -278346756422898543}
   m_Layer: 0
   m_Name: Dibujo 61
   m_TagString: Untagged
@@ -131,3 +132,23 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   board: {fileID: 0}
+--- !u!95 &-278346756422898543
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322324427969920977}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d55491c168557d646b66faa1a4400f5a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -195,11 +195,10 @@ public class Board : MonoBehaviour
                     foreach (PiezasDeJuego pieza in Coincidencias_ini)
                     {
                         pieza.GetComponentInChildren<Animator>().SetBool("A", true);
-                        AudioSource.PlayClipAtPoint(destryaudio, gameObject.transform.position); // al destruir un match suena 
 
                     }
                     yield return new WaitForSeconds(.5f);
-
+                    AudioSource.PlayClipAtPoint(destryaudio, gameObject.transform.position); // al destruir un match suena 
                     ClearAndRefillBoard(Coincidencias_ini);
                 }
             }

@@ -27,7 +27,7 @@ public class Tile : MonoBehaviour
     }
     public void OnMouseUp()
     {
-        funciones.RealiceTile();
+        funciones.RealeaseTile();
         AudioSource.PlayClipAtPoint(audioFX, gameObject.transform.position);
         // al selecionar una ficha suena
     }

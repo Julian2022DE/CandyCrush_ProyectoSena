@@ -24,7 +24,7 @@ public class PiezasDeJuego : MonoBehaviour
         cordenaday = y;
     }
 
-    public void Movepieces(int x, int y, float duracion)
+    public void Move(int x, int y, float duracion)
     {
         if (yaseejecuto == true) 
         {

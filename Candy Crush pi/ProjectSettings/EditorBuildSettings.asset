@@ -6,6 +6,24 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Pnatlla inicial.unity
+    guid: 4359ffe1e0f608245be1e824277650a0
+  - enabled: 1
     path: Assets/Scenes/LVL 1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/LVL 2.unity
+    guid: 8c2aeafb6a5bcc34b8331f16c947c07e
+  - enabled: 1
+    path: Assets/Scenes/LVL 3.unity
+    guid: 81c38f5b7913f4945b8d813e927ec40e
+  - enabled: 1
+    path: Assets/Scenes/LVL 4.unity
+    guid: dfe297e5430304b438574654685fb15f
+  - enabled: 1
+    path: Assets/Scenes/LVL 5.unity
+    guid: 5e53e5f06bf62e54591c5e86fe982fd7
+  - enabled: 1
+    path: Assets/Scenes/Game over.unity
+    guid: a31bdeb36498b554cb91e60e4179ab4d
   m_configObjects: {}

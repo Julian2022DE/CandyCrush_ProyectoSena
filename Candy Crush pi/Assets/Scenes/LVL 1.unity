@@ -609,17 +609,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0f1ba5b7f1192c489d98fa88c79ce3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 0
-  height: 0
-  borderSize: 0
-  tilePrefab: {fileID: 0}
-  gamePiecesPrefabs: []
+  width: 5
+  height: 5
+  borderSize: 1
+  tilePrefab: {fileID: 3647941875919916308, guid: 67a4fd1319dd63b4cb734a07b7c2b0e9, type: 3}
+  gamePiecesPrefabs:
+  - {fileID: 4447443781147504730, guid: 698c9aa75be9e064d8b493384e66b556, type: 3}
+  - {fileID: 5226769576635191312, guid: 554f2e1b1dea46949bbc107cd8f5e0f5, type: 3}
+  - {fileID: 4827982617136482075, guid: f13582f1d32e0a745ba4c303e5bc1097, type: 3}
+  - {fileID: 1322324427969920977, guid: 78505bcadbd1faa44b11e557ea00d677, type: 3}
+  - {fileID: 2888933419425561214, guid: 29a1dfb4f65536b429426f0f4d3f1434, type: 3}
+  - {fileID: 8370556473035709536, guid: 6276b5231c1ac8e4d9613e991524252e, type: 3}
   swapTime: 0.5
   cam: {fileID: 519420031}
-  tileInicial: {fileID: 0}
-  tileFinal: {fileID: 0}
-  puedeMover: 1
-  Source: {fileID: 0}
+  m_clickedTile: {fileID: 0}
+  m_targetTile: {fileID: 0}
+  Source: {fileID: 628721318}
   audioFX: {fileID: 8300000, guid: d5921b8fc2e5a424cb9aca3cdeb9a32f, type: 3}
   destryaudio: {fileID: 8300000, guid: 1742e2f4a6683df45a68a093b00d7f44, type: 3}
   objpuntos: {fileID: 2075701280}

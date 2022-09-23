@@ -98,14 +98,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53db6d12b214ea8488b35b4c890d8c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cordenadax: 0
-  cordenaday: 0
+  xIndex: 0
+  yIndex: 0
+  m_Board: {fileID: 0}
+  tipoDeInterpolo: 0
+  tipoFicha: 3
   start: {x: 0, y: 0, z: 0}
   end: {x: 0, y: 0, z: 0}
   t: 0
   tiempodemovimiento: 2
   yaseejecuto: 1
-  ficha: 3
   tipointerpolacion: 3
   curve:
     serializedVersion: 2
@@ -131,7 +133,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  board: {fileID: 0}
 --- !u!95 &-6082837283305271905
 Animator:
   serializedVersion: 4

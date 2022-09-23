@@ -4,53 +4,63 @@ using UnityEngine;
 
 public class PiezasDeJuego : MonoBehaviour
 {
-    public int cordenadax;
-    public int cordenaday;
+    public int xIndex;
+    public int yIndex;
+
+    public Board m_Board;
+
+    bool m_isMoving = false;
+
+    public tipodeinterpolacion tipoDeInterpolo;
+    public tipodeficha tipoFicha;
 
     public Vector3 start;
     public Vector3 end;
     public float t;
     public float tiempodemovimiento;
     public bool yaseejecuto;
-    public tipodeficha ficha;
+    //public tipodeficha ficha;
     public tipodeinterpolacion tipointerpolacion;
     public AnimationCurve curve;
-    public Board board;
- 
 
-    public void Cordenadas(int x, int y)
+
+    public void SetCord(int x, int y)
     {
-        cordenadax = x;
-        cordenaday = y;
+        xIndex = x;
+        yIndex = y;
     }
 
+    public void Init(Board board)
+    {
+        m_Board = board;
+    }
     public void Move(int x, int y, float duracion)
     {
-        if (yaseejecuto == true) 
+        if (!yaseejecuto)
         {
-            StartCoroutine(Movepiece(new Vector3(x,y,0),duracion));
+            StartCoroutine(MoveRoutine(x, y, duracion));
         }
     }
 
-    IEnumerator Movepiece(Vector3 finaldelpunto, float tiempomovimiento)
+    IEnumerator MoveRoutine(int destX, int destY, float tiempomovimiento)
     {
-        yaseejecuto = false;
-
+        Vector2 startPosition = transform.position;
         bool llego = false;
         float tiempotranscurrido = 0;
-        Vector3 startPosition = transform.position;
+        yaseejecuto = true;
         while (!llego)
         {
-            if (Vector3.Distance(transform.position, finaldelpunto) < 0.01f)
+            if (Vector3.Distance(transform.position, new Vector2(destX, destY)) < 0.01f)
             {
                 llego = true;
-                yaseejecuto = true;
-
-                transform.position = new Vector3((int)finaldelpunto.x, (int)finaldelpunto.y, 0);
-                board.Piezaposicion(this, (int)finaldelpunto.x, (int)finaldelpunto.y);
+                if (m_Board != null)
+                {
+                    m_Board.PlaceGamePiece(this, destX, destY);
+                }
                 break;
             }
-            float t = tiempotranscurrido / tiempomovimiento;
+            tiempotranscurrido += Time.deltaTime;
+        float t = Mathf.Clamp(tiempotranscurrido / tiempodemovimiento, 0f, 1f);
 
             switch(tipointerpolacion)
             {
@@ -71,9 +81,10 @@ public class PiezasDeJuego : MonoBehaviour
                     break;
             }
             tiempotranscurrido += Time.deltaTime;
-            transform.position = Vector3.Lerp(startPosition, finaldelpunto, t);
-            yield return new WaitForEndOfFrame();
+            transform.position = Vector3.Lerp(startPosition, new Vector2(destX, destY), t);
+            yield return null;
         }
+        m_isMoving = false;
     }
 
     public enum tipodeinterpolacion

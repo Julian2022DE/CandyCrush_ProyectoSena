@@ -12,18 +12,18 @@ public class Tile : MonoBehaviour
     public GameObject [] pref;
     
 
-    public void Inicializar(int cambioX, int cambioY)
+    internal void Init(int cambioX, int cambioY)
     {
         indiceX = cambioX;
         indiceY = cambioY;
     }
     public void OnMouseDown()
     {
-        funciones.InicialTile(this);
+        funciones.ClickedTile(this);
     }
     public void OnMouseEnter()
     {
-        funciones.FinalTile(this);
+        funciones.DragTile(this);
     }
     public void OnMouseUp()
     {

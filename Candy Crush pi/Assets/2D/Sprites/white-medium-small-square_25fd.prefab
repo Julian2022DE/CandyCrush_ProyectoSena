@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7826891769836563176}
   - component: {fileID: 2748605140596963885}
-  - component: {fileID: 6874339731639044009}
   - component: {fileID: 4060115483291621670}
+  - component: {fileID: 2364839340068003502}
   m_Layer: 0
   m_Name: white-medium-small-square_25fd
   m_TagString: Untagged
@@ -76,40 +76,16 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 48f68fb65c41b2f41b8fb741768bd504, type: 3}
-  m_Color: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+  m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 2.4, y: 2.4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6874339731639044009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3647941875919916308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3146d7c80805974babaf6ecaca703f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indiceX: 5
-  indiceY: 5
-  funciones: {fileID: 0}
-  Source: {fileID: 0}
-  audioFX: {fileID: 8300000, guid: 0b639e9aea4e9e34e87bc2a064562f8c, type: 3}
-  pref:
-  - {fileID: 4447443781147504730, guid: 698c9aa75be9e064d8b493384e66b556, type: 3}
-  - {fileID: 5226769576635191312, guid: 554f2e1b1dea46949bbc107cd8f5e0f5, type: 3}
-  - {fileID: 4827982617136482075, guid: f13582f1d32e0a745ba4c303e5bc1097, type: 3}
-  - {fileID: 1322324427969920977, guid: 78505bcadbd1faa44b11e557ea00d677, type: 3}
-  - {fileID: 2888933419425561214, guid: 29a1dfb4f65536b429426f0f4d3f1434, type: 3}
-  - {fileID: 8370556473035709536, guid: 6276b5231c1ac8e4d9613e991524252e, type: 3}
 --- !u!61 &4060115483291621670
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -136,3 +112,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2364839340068003502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3647941875919916308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18815728785fb6e4495f79a90344a952, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  xIndex: 5
+  yIndex: 5
+  source: {fileID: 0}
+  audioFX: {fileID: 8300000, guid: 0b639e9aea4e9e34e87bc2a064562f8c, type: 3}

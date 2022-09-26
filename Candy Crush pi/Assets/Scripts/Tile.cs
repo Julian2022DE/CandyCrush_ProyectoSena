@@ -4,32 +4,36 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public int indiceX;
-    public int indiceY;
-    public Board funciones;
-    public AudioSource Source;
+    public int xIndex;
+    public int yIndex;
+    AudioSource source;
     public AudioClip audioFX;
-    public GameObject [] pref;
-    
 
-    internal void Init(int cambioX, int cambioY)
+    Board m_board;
+
+
+    public void Init(int cambioX, int cambioY, Board board)
     {
-        indiceX = cambioX;
-        indiceY = cambioY;
+        xIndex = cambioX;
+        yIndex = cambioY;
+
+        m_board = board;
     }
+
     public void OnMouseDown()
     {
-        funciones.ClickedTile(this);
+        m_board.ClickedTile(this);
     }
+
     public void OnMouseEnter()
     {
-        funciones.DragTile(this);
+        m_board.DragToTile(this);
     }
+
     public void OnMouseUp()
     {
-        funciones.RealeaseTile();
+        m_board.ReleaseTile();
         AudioSource.PlayClipAtPoint(audioFX, gameObject.transform.position);
-        // al selecionar una ficha suena
     }
-}
 
+}

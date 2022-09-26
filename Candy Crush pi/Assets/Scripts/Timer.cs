@@ -11,11 +11,7 @@ public class Timer : MonoBehaviour
     public TMP_Text tiempo;
     private float restante;
     public bool enMarcha;
-    public int puntos = 0;
-    public TMP_Text _puntos;
-
-  
-
+    Puntaje puntos;
 
     private void Awake()
     {
@@ -36,12 +32,6 @@ public class Timer : MonoBehaviour
 
             tiempo.text = string.Format("{00:00} : {01:00}", tempMin, tempSeg);
             
-
-        }
-        if(enMarcha)
-        {
-            int puntaje = Mathf.FloorToInt(puntos);
-            _puntos.text = string.Format("{0}", puntaje);
 
         }
     }

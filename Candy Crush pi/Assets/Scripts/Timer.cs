@@ -9,11 +9,11 @@ public class Timer : MonoBehaviour
 {
     public int min, seg;
     public TMP_Text tiempo;
-    private float restante;
+    public float restante;
     public bool enMarcha;
     Puntaje puntos;
 
-    private void Awake()
+    private void Awake() //tiempo seleccionable 
     {
         restante = (min * 60) + seg;
     }
@@ -22,7 +22,7 @@ public class Timer : MonoBehaviour
         if (enMarcha)
         {
             restante -= Time.deltaTime;
-            if (restante < 1)
+            if (restante < 1) // en caso de que el timer baje de 1 seg pierda 
             {
                 SceneManager.LoadScene("Game over");
             }

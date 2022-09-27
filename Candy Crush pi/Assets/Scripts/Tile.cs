@@ -11,26 +11,25 @@ public class Tile : MonoBehaviour
 
     Board m_board;
 
-
-    public void Init(int cambioX, int cambioY, Board board)
+    
+    public void Init(int cambioX, int cambioY, Board board) // declara los vectores x - y y board 
     {
         xIndex = cambioX;
         yIndex = cambioY;
-
         m_board = board;
     }
-
-    public void OnMouseDown()
+    
+    public void OnMouseDown() // agarra el tile inicial 
     {
         m_board.ClickedTile(this);
     }
 
-    public void OnMouseEnter()
+    public void OnMouseEnter() //mantiene selecionado el tile
     {
         m_board.DragToTile(this);
     }
 
-    public void OnMouseUp()
+    public void OnMouseUp() //suelta el tile
     {
         m_board.ReleaseTile();
         AudioSource.PlayClipAtPoint(audioFX, gameObject.transform.position);

@@ -15,18 +15,18 @@ public class GamePiece : MonoBehaviour
     public TipoFicha tipoFicha;
 
 
-    internal void SetCoord(int x, int y)
+    internal void SetCoord(int x, int y) // cordenadas x - y
     {
         xIndex = x;
         yIndex = y;
     }
 
-    internal void Init(Board board)
+    internal void Init(Board board) // definicion de board dentro de Gamepiece
     {
         m_board = board;
     }
 
-    internal void Move(int x, int y, float moveTime)
+    internal void Move(int x, int y, float moveTime) //declara que es en movimiento
     {
         if (!m_isMoving)
         {
@@ -35,7 +35,7 @@ public class GamePiece : MonoBehaviour
     }
 
 
-    IEnumerator MoveRoutine(int destX, int destY, float timeToMove)
+    IEnumerator MoveRoutine(int destX, int destY, float timeToMove) // tipo de casos de los movimientos 
     {
         Vector2 startPosition = transform.position;
         bool reacedDestination = false;
@@ -57,7 +57,7 @@ public class GamePiece : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp(elapsedTime / timeToMove, 0f, 1f);
 
-            switch (tipoDeInterpolo)
+            switch (tipoDeInterpolo) // casos de fisica pasados a codigo
             {
                 case TipoInterpolacion.Lineal:
 
@@ -96,7 +96,7 @@ public class GamePiece : MonoBehaviour
         m_isMoving = false;
     }
 
-    public enum TipoInterpolacion
+    public enum TipoInterpolacion // Movimiento mas pulido
     {
         Lineal,
         Entrada,
@@ -105,7 +105,7 @@ public class GamePiece : MonoBehaviour
         MasSuavizado,
     }
 
-    public enum TipoFicha
+    public enum TipoFicha //diferencia las fichas
     {
         Fredy,
         Bonnie,

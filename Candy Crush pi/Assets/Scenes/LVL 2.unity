@@ -630,6 +630,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6153c7574436796459b8ef0f060d6be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movimientosNecesarios: 0
+  goalScore: 1000
+  tiempo: {fileID: 2075701284}
 --- !u!114 &874139001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -788,6 +791,7 @@ MonoBehaviour:
   m_targetTile: {fileID: 0}
   audioFX: {fileID: 8300000, guid: d5921b8fc2e5a424cb9aca3cdeb9a32f, type: 3}
   destroyAudio: {fileID: 8300000, guid: 1742e2f4a6683df45a68a093b00d7f44, type: 3}
+  cantidademovimientos: 30
 --- !u!1 &1423329534
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,4 +1164,5 @@ MonoBehaviour:
   min: 10
   seg: 0
   tiempo: {fileID: 2075701282}
+  restante: 0
   enMarcha: 1
